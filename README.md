@@ -32,22 +32,31 @@ $env:AzMapsSubKey="<your key here>"
 
 ## How to Use
 
-It's a mystery.
+1. Populate `LocationsOfInterest.csv` with locations to calculate travel times to/from. 
 
-Populate `LocationsOfInterest.csv` with locations to calculate travel times to/from. It must have at least two columns `Key` and `Address`. `Key` may be displayed later.
+It must have at least two columns `Key` and `Address`. `Key` may be displayed later.
 
 | Key | Address | Comment |
 |-|-|-|
 | School | 123 Seasame Street, NY, 55555 | This column is ignored. |
 | Work | 500 Serious Business Lane, NY, 55555 | Business! |
 
-Populate `Addresses.csv` with addresses of interest. Only the `Address` column is used by these scripts.
+2. Populate `Addresses.csv` with addresses of interest.
+
+Only the `Address` column is used by these scripts.
 
 | Address | Comments | Cost |
 |-|-|-|
 | 1234 Basic Home Lane, NY, 55555 | Nice option. | $$ |
 | 9999 Expensive Drive, NY, 55555 | The kitchen is too small. | $$$$$$ |
 
+3. Run the scripts
+
+Call `Add-Addresses` to copy records from `Addresses.csv` to `Address_Ddetails.csv`.
+
+Call `Add-AddressLocations` to fetch latitude and longitude for all addresses in `Address_Details.csv`.
+
+Call `Add-TravelTimes` to add travel times...when it's written...
 
 ## Endpoints and Data
 
