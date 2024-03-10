@@ -14,7 +14,7 @@ function Get-MapAddress() {
     $result = Invoke-WebRequest $addyUrl
     if($result.StatusCode -Eq 200){
         return $result.Content | ConvertFrom-Json
-    }
+    } 
     return $result.StatusDescription
 }
 
@@ -31,6 +31,11 @@ function Get-MapCoords() {
     )
     $subKey = $env:AzMapsSubKey
     $result = Get-MapAddress -Address $address
+    if($result.results.entryPoints.length -lt 1){
+        "Debug: No coordinates found ------"
+        Write-Output $result
+        "End Debug: ------"
+    }
     return $result.results.entryPoints[0].position
 }
 
