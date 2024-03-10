@@ -236,7 +236,8 @@ function Add-TravelTimes() {
         # $_.psobject.properties | Foreach { $updated[$_.Name] = $_.Value }
         $to_address = $_.Address
         "Fetching travel time for $to_address ..."
-        $updated."$key" = Get-MapTravelMinutes -from_address $from_address -to_address $to_address
+        $dist = Get-MapTravelMinutes -from_address $from_address -to_address $to_address
+        $updated."$key" = [math]::ceiling($dist)
         $idx = $results.Add($updated)
     }
     $results | Select-Object Address, $key | Format-List
