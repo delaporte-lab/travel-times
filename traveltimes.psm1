@@ -196,12 +196,45 @@ Export-ModuleMember -Function Add-AddressLocations
 Add travel times to any rows in Address_Details.csv,
 based on coordinates added previously with `Add-AddressLocations`
 
+.INPUTS
+
+locationFile - as descrbied in README.md
+key - which row of locationFile to lookup
+outFile - the file to update. each row will be updated. key will become a new column, containing travel time in minutes
+
+.EXAMPLE
+
+Add-TravelTimes -key school -locationFile "LocationsOfInterest.csv" -outFile "Address_Details.csv"
+
 #>
 function Add-TravelTimes() {
     Param(
-        [string]$outFile= "Address_Details.csv"
+        [string]$key,
+        [string]$locationFile="LocationsOfInterest.csv",
+        [string]$outFile="Address_Details.csv"
     )
+    # TODO: Maybe do one key at a time, for now...
     $details = Get-Content $outFile| ConvertFrom-Csv
+    $locations = Get-Content $locationFile | ConvertFrom-Csv
+
+    $location_address = locations[$key].Address
+    Write-Out "Location address is $location_address"
+
+    $results = [System.Collections.ArrayList]@()
+
+    $details | ForEach-Object {
+        Write-Out "Not yet updating $_.Address"
+        # TODO: Loop over keys in LocationsOfInterest
+        # For any that do not have travel time in minutes, look it up and add it
+    }
+    # TODO: Fancy output of just updated keys...
+    # $results | Select-Object Address, ... keys ... | Format-List
+    $answer = Read-Host -Prompt "Write updated file? y/N"
+    if($answer -Eq "y") {
+        $results | Export-Csv -NoTypeInformation -Path $outFile
+        Write-Host "Updated $outFile"
+    }
+
 
 }
 Export-ModuleMember -Function Add-TravelTimes
