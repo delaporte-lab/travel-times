@@ -122,11 +122,14 @@ Helper function to add any missing addresses that are present in the input file,
 function Add-Addresses(){
     Param(
         [string]$addressFile = "Addresses.csv",
+        [string]$locationFile="Locations.csv",
         [string]$outFile= "Address_Details.csv"
     )
     Copy-Item $outFile "$outFile.backup"
     $addressList = Get-Content $addressFile | ConvertFrom-Csv
     $details = Get-Content $outFile| ConvertFrom-Csv
+    $locations = Get-Content $locationFile | ConvertFrom-Csv
+    # TODO: Add location keys to the file...
 
     $results = [System.Collections.ArrayList]@()
     $known = [System.Collections.ArrayList]@()
@@ -135,6 +138,8 @@ function Add-Addresses(){
         $idx = $results.Add($_)
         $known.Add($_.Address)
     }
+
+
     $addressList | ForEach-Object {
         if($known -NotContains $_.Address)
         {
@@ -221,7 +226,7 @@ function Add-TravelTimes() {
 
     $loc = $locations | ? { $_.Key -eq $key }
     $from_address = $loc.Address
-    "Selected Location is is $from_address"
+    "Selected Location is '$from_address'"
 
     $results = [System.Collections.ArrayList]@()
     $details | Format-Table
