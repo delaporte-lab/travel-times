@@ -224,11 +224,12 @@ function Add-TravelTimes() {
     "Selected Location is is $from_address"
 
     $results = [System.Collections.ArrayList]@()
+    $details | Format-Table
 
-    $details | ForEach-Object {
+    $detailsHT | ForEach-Object {
         $updated = $_
-        "Not yet updating ${$_.Address}"
-        $updated[$key] = Get-TravelTimes -from_address $from_address -to_address $_.Address
+        "Not yet updating ${$_['Address']}"
+        $updated[$key] = Get-MapTravelMinutes -from_address $from_address -to_address $_.Address
         "Travel minutes: $minutes"
         $idx = $results.Add($updated)
     }

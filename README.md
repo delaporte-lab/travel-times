@@ -52,7 +52,9 @@ Only the `Address` column is used by these scripts.
 
 3. Run the scripts
 
-Call `Add-Addresses` to copy records from `Addresses.csv` to `Address_Ddetails.csv`.
+Call `Add-Addresses` to copy records from `Addresses.csv` to `Address_Dedtails.csv`.
+
+> Work-around: Add any locations of Interest to Address_Details.csv as empty columns.
 
 Call `Add-AddressLocations` to fetch latitude and longitude for all addresses in `Address_Details.csv`.
 
