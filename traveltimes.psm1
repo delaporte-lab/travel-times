@@ -1,9 +1,3 @@
-
-function Get-TravelTimes() {
-
-
-}
-
 $fuzzyUrl = "https://atlas.microsoft.com/search/fuzzy/json?&api-version=1.0&subscription-key={Your-Azure-Maps-Subscription-key}&language=en-US&query=pizza"
 
 <#
