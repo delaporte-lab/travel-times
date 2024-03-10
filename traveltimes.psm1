@@ -204,31 +204,36 @@ outFile - the file to update. each row will be updated. key will become a new co
 
 .EXAMPLE
 
-Add-TravelTimes -key school -locationFile "LocationsOfInterest.csv" -outFile "Address_Details.csv"
+Add-TravelTimes -key school -locationFile "Locations.csv" -outFile "Address_Details.csv"
 
 #>
 function Add-TravelTimes() {
     Param(
         [string]$key,
-        [string]$locationFile="LocationsOfInterest.csv",
+        [string]$locationFile="Locations.csv",
         [string]$outFile="Address_Details.csv"
     )
     # TODO: Maybe do one key at a time, for now...
     $details = Get-Content $outFile| ConvertFrom-Csv
     $locations = Get-Content $locationFile | ConvertFrom-Csv
+    "Locations of Interest:"
+    $locations | Format-List
 
-    $location_address = locations[$key].Address
-    Write-Out "Location address is $location_address"
+    $loc = $locations | ? { $_.Key -eq $key }
+    $from_address = $loc.Address
+    "Selected Location is is $from_address"
 
     $results = [System.Collections.ArrayList]@()
 
     $details | ForEach-Object {
-        Write-Out "Not yet updating $_.Address"
-        # TODO: Loop over keys in LocationsOfInterest
-        # For any that do not have travel time in minutes, look it up and add it
+        $updated = $_
+        "Not yet updating ${$_.Address}"
+        $updated[$key] = Get-TravelTimes -from_address $from_address -to_address $_.Address
+        "Travel minutes: $minutes"
+        $idx = $results.Add($updated)
     }
     # TODO: Fancy output of just updated keys...
-    # $results | Select-Object Address, ... keys ... | Format-List
+    $results | Select-Object Address, $key | Format-List
     $answer = Read-Host -Prompt "Write updated file? y/N"
     if($answer -Eq "y") {
         $results | Export-Csv -NoTypeInformation -Path $outFile
