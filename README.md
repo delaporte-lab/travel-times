@@ -16,6 +16,13 @@ Then inside PowerShell 7, install the Az module:
 Install-Module -Name Az -Repository PSGallery -Force
 ```
 
+Now put this module on your PowerShell path, and then import this module.
+
+``powershell
+Import-Module travel-times.psm1
+```
+
+
 ### Subscription Key
 
 Set your subscription key:
