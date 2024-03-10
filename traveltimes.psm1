@@ -226,18 +226,20 @@ function Add-TravelTimes() {
     $results = [System.Collections.ArrayList]@()
     $details | Format-Table
 
-    $detailsHT | ForEach-Object {
+    $details | ForEach-Object {
         $updated = $_
-        "Not yet updating ${$_['Address']}"
-        $updated[$key] = Get-MapTravelMinutes -from_address $from_address -to_address $_.Address
-        "Travel minutes: $minutes"
+        # $_.psobject.properties | Foreach { $updated[$_.Name] = $_.Value }
+        $to_address = $_.Address
+        "Fetching travel time for $to_address ..."
+        $updated."$key" = Get-MapTravelMinutes -from_address $from_address -to_address $to_address
         $idx = $results.Add($updated)
     }
-    # TODO: Fancy output of just updated keys...
     $results | Select-Object Address, $key | Format-List
+    # $results | Format-List
     $answer = Read-Host -Prompt "Write updated file? y/N"
     if($answer -Eq "y") {
         $results | Export-Csv -NoTypeInformation -Path $outFile
+        # $results | Export-Csv -Path $outFile
         Write-Host "Updated $outFile"
     }
 
