@@ -58,9 +58,19 @@ These scripts will populate `Address_Details.csv` with travel times.
 
 > Work-around: Add any locations of Interest to Address_Details.csv as empty columns.
 
-2. Call `Add-AddressLocations` to fetch latitude and longitude for all addresses in `Address_Details.csv`.
+2. Call `Add-TravelTimes` to add travel times. Pass in the `-key` option to choose a location.
 
-3. Call `Add-TravelTimes` to add travel times.
+```powershell
+Add-TravelTimes -key School
+Add-TravelTimes -key Work
+```
+
+Optional: 
+
+    Call `Add-AddressLocations` to fetch latitude and longitude for all addresses in `Address_Details.csv`.
+
+    At some point this library may use this to save some API calls.
+
 
 > Coming soon...calculate cost per square foot and add that as well.
 
